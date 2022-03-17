@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model BookingRec {
+  id String @id @default(cuid())
+  date DateTime
+  startTime String 
+  endTime String 
+  ownerName String
+  ownerEmail String
+  title String
+  attendees String
+  attendeeEmail String
+  owner String
+  status String
+}
+
+
+model BookingDoc {
+  id String @id @default(cuid())
+  date DateTime
+  startTime String 
+  endTime String 
+  ownerName String
+  ownerEmail String
+  title String
+  attendees String
+  attendeeEmail String
+  owner String
+  status String
+}
+
+model EventsType {
+  id String @id @default(cuid())
+  title String
+  description String
+  type String
+  duration Int
+  url String
+  location String
+}
+
+model Attendees {
+  id String @id @default(cuid())
+  name String
+  email String
+  
+}
+
+model Companies{
+  id String @id @default(cuid())
+  name String
+  email String
+}
+
+model Availabilities{
+  id String @id @default(cuid())
+  day String
+  start String
+  end String
+  owner String
+}
+
+
+model User {
+  id String @id @default(cuid())
+  userName String
+  email String
+  password String
+}
