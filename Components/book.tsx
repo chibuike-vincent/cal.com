@@ -4,7 +4,6 @@ import 'react-tabs/style/react-tabs.css';
 import styles from '../styles/Home.module.css'
 import { useRouter } from "next/router"
 import BookingsCard from "./bookingsCard"
-// import Loader from "./loader"
 
 export default function Book() {
     const router = useRouter()
