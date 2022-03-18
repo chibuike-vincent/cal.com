@@ -5,7 +5,7 @@ import Layout from "../Components/layout"
 import styles from '../styles/Home.module.css'
 import { useRouter } from "next/router"
 
-export default function Book() {
+export default function Login() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [data, setData] = useState({

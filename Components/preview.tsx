@@ -8,7 +8,6 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import NestedSelect from "./nestedSelect"
 import moment from "moment"
-import { data } from "autoprefixer"
 
 
 interface User {
@@ -54,39 +53,62 @@ export default function Book() {
     })
 
  
+    const {user,preview} = router.query
+    console.log(user, preview, "new Page")
+
+    // const userqueryKey = 'user';
+    // const user = router.query[userqueryKey] || router.asPath.match(new RegExp(`[&?]${userqueryKey}=(.*)(&|$)`))
+    // const previewqueryKey = 'preview';
+    // const preview = router.query[previewqueryKey] || router.asPath.match(new RegExp(`[&?]${previewqueryKey}=(.*)(&|$)`))
+    // console.log(user, preview, "new Page")
+
 
   useEffect(() => {
     
+    if(user !== undefined && preview !== undefined){
 
-      const getAvailableTime = async() => {
-        const {user,preview} = await router.query
+    Promise.all([
+        fetch(`/api/availability/getAvailabilities?id=${user}`).then(resp => resp.json()),
+        fetch(`/api/event/eventById?id=${preview}`).then(resp => resp.json()),
+        fetch(`/api/auth/userById?id=${user}`).then(resp => resp.json()),
+      ]).then((res) => {
+          console.log(res, "from promise")
+          setAvailableData(res[0])
+          setEventData(res[1])
+          setUserData(res[2])
+        })
+    }
+    //   const getAvailableTime = async() => {
+        
 
-        if(user !== undefined && preview !== undefined){
+      
 
-            const response:any = await fetch(`/api/availability/getAvailabilities?id=${user}`, {
-                method: "GET"
-            })
-            const result:any = await response.json()
-            setAvailableData(result)
+    //     if(user !== undefined && preview !== undefined){
 
-            const eventType:any = await fetch(`/api/event/eventById?id=${preview}`, {
-                method: "GET"
-            })
+    //         const response:any = await fetch(`/api/availability/getAvailabilities?id=${user}`, {
+    //             method: "GET"
+    //         })
+    //         const result:any = await response.json()
+    //         setAvailableData(result)
 
-            const event:any = await eventType.json()
-            setEventData(event)
+    //         const eventType:any = await fetch(`/api/event/eventById?id=${preview}`, {
+    //             method: "GET"
+    //         })
 
-            const currentUser:any = await fetch(`/api/auth/userById?id=${user}`, {
-                method: "GET"
-            })
-            const userData:any = await currentUser.json()
-            setUserData(userData)
+    //         const event:any = await eventType.json()
+    //         setEventData(event)
+
+    //         const currentUser:any = await fetch(`/api/auth/userById?id=${user}`, {
+    //             method: "GET"
+    //         })
+    //         const userData:any = await currentUser.json()
+    //         setUserData(userData)
             
-         }}
+    //      }}
 
-      getAvailableTime()
+    //   getAvailableTime()
      
-  }, [])
+  }, [user, preview])
 
 
     const handleChange = (e: any) => {

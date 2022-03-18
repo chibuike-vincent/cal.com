@@ -5,7 +5,7 @@ import Layout from "../Components/layout"
 import styles from '../styles/Home.module.css'
 import { useRouter } from "next/router"
 
-export default function Book() {
+export default function SignUp() {
     const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [data, setData] = useState({
@@ -34,14 +34,14 @@ export default function Book() {
 
         const result = await response.json()
 
-        console.log(response, "dddddd")
+        console.log(result, "dddddd")
         if(result.responseCode === "00"){
             setIsLoading(false)
             alert("Created Successfully")
             router.push("/")
         }else{
             setIsLoading(false)
-            alert(response.message)
+            alert(result.message)
         }
 
     }

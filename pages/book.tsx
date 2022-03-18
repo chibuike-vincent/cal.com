@@ -23,7 +23,7 @@ export async function getServerSideProps(context:any) {
 
 
 
-const Home: NextPage = (props:any) => {
+const BookPage: NextPage = (props:any) => {
   return (
     <Layout>
       <div className={styles.booking_main_container}>
@@ -33,4 +33,4 @@ const Home: NextPage = (props:any) => {
   )
 }
 
-export default Home
+export default BookPage

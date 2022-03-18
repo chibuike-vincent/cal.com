@@ -111,7 +111,10 @@ const Home: NextPage = (props:any) => {
     getData()
    }, [])
 
-  
+   const clickToCopy = (url:any) => {
+    navigator.clipboard.writeText(url)
+    alert("Link Copied")
+}
  
   return (
     <Layout>
@@ -128,7 +131,7 @@ const Home: NextPage = (props:any) => {
             </div>
             <div className={styles.del_btn_container}>
             <input type="button" onClick={() => router.push(`/${user.id}/${event.id}`)} value="preview" className={styles.button} />
-            <input type="button" onClick={() => alert("clicked")} value="copy link" className={styles.button} />
+            <input type="button" onClick={() => clickToCopy(`http://localhost:3000/${user.id}/${event.id}`)} value="copy link" className={styles.button} />
             </div>
           </div>
           ))

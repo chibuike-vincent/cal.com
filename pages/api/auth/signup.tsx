@@ -13,14 +13,13 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
    try {
     const jsonData = JSON.parse(req.body)
 
-    const existing = await prisma.user.findMany({ where: { email: jsonData.email }})
+    const existing = await prisma.user.findMany({ where: { OR: [{email: jsonData.email }, {userName: jsonData.userName }] }})
 
-    console.log(existing, "existingUser")
     if (existing.length) {
         return res.status(404).json({
             responseCode: "08",
             status: "failed",
-            message: `User with email ${jsonData.email} already exists`,
+            message: `User with same email or user name already exist`,
         });
     }
 
