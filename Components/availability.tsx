@@ -28,6 +28,7 @@ function Availability(props:Props) {
     const [selected, setSelected] = useState(null);
     const [user, setUser] = useState<any>(null)
     const [availableDAta, setAvailableData] = useState<any[]>([])
+    const [isLoading, setIsLoading] = useState(false)
     const router = useRouter()
     const [availableTimes, setAvailableTime] = useState(
         {
@@ -81,6 +82,8 @@ function Availability(props:Props) {
             return alert("All fields are required!")
         }
 
+        setIsLoading(true)
+
         const data = {
             day:availableTimes.day,
             start: availableTimes.start,
@@ -95,6 +98,7 @@ function Availability(props:Props) {
  
          console.log(response)
          if(response.status === 200){
+             setIsLoading(false)
              alert("Created")
             //  router.push("")
          }
@@ -140,17 +144,17 @@ function Availability(props:Props) {
 
                 
                         <div className={styles.del_btn_container}>
-                         <input type="button" onClick={() => saveAvailability()} value="Submit" className={styles.button} />
+                         <input type="button" onClick={() => saveAvailability()} value={isLoading ? "Processing..." : "Submit"} className={styles.button} />
     
                     </div>
                     
         </div>
         <h2>My Availabilities</h2>
-        {
-           availableDAta.length && availableDAta.map((item:any) => (
+       {
+           availableDAta.length ? availableDAta.map((item:any) => (
                 <AvailabilityView item={item} day={day} startTime={startTime} endTime={endTime} user={user} />
-            ))
-        }
+            )) : <p>Loading...</p>
+       }
         </>
     )
 }

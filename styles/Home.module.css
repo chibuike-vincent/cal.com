@@ -161,6 +161,21 @@
 
 }
 
+.buttonCancel{
+  margin: 10px;
+  padding: 15px;
+  border-radius: 4px;
+  border: none;
+  color:#fff;
+  background-color:  rgb(163, 158, 158);
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
 .add_contact_title{
   text-align: center;
   font-size: 28px;
@@ -250,6 +265,13 @@
   padding: 20px;
   border-radius: 4px;
   border: 1px solid black
+}
+
+.preview_main{
+  width: 100%;
+  display: flex;
+  background-color: rgb(238, 238, 238);
+  height: 100vh;
 }
 
 .preview_container_two{

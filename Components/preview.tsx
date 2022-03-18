@@ -46,6 +46,7 @@ export default function Book() {
     const [selectedTime, setSelectedTime] = useState("")
     const [timeZone, setSelectedTimeZone] = useState("")
     const [isMoreGuest, setIsMoreGuest] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [data, setData] = useState({
         userName: "",
         email: "",
@@ -141,19 +142,15 @@ export default function Book() {
 
 
     const handleBooking = async() => {
-        console.log(moment(value).format("YYYY-MM-DD"), "val")
+        setIsLoading(true)
 
         let start = `${moment(value).format("YYYY-MM-DD")} ${selectedTime.split(" ")[0]}`
-        console.log(start, "start")
         let duration = `0:${eventDAta.duration}`
-        console.log(duration, "dura")
-            // starttime = selectedTime.split(" ")[0];
 
         let [hour, minute] = duration.split(":");
-        console.log(minute)
-        //shorthand initialization for the argument
+       
         let endtime = moment(start).add(minute, 'minutes').format("hh:mm a");
-        console.log(endtime, "emff")
+        
         const dataObj = {
             date: value,
             title: eventDAta?.title,
@@ -174,8 +171,10 @@ export default function Book() {
 
         const result = await response.json()
 
-        if(result.responseCode === "00"){
+        if(response.status === 200){
+            setIsLoading(false)
             alert("Booking Successful")
+
             // router.push("/")
         }
     }
@@ -215,15 +214,15 @@ export default function Book() {
                 <label className={styles.bk_label}>Additional Notes</label>
                 <textarea  name='notes' value={data.notes} onChange={(e) => handleInputChange(e)} placeholder='Please help share anything that will help prepare for our meeting' className={styles.bk_input} />
                 <div className={styles.bk_btn_container}>
-                <input type="button" onClick={() => handleBooking()} value="Confirm" className={styles.button} />
-                <input type="button" onClick={() => console.log("Cancel")} value="Cancel" className={styles.button} />
+                <input type="button" onClick={() => handleBooking()} value={isLoading ? "Processing..." : "Confirm"} className={styles.button} />
+                <input disabled={true} type="button" onClick={() => console.log("Cancel")} value="Cancel" className={styles.buttonCancel} />
                 </div>
             </div>
 
             
         </div>
 
-            ) : (
+            ) : userDAta && userDAta.userName ? (
                 <div className={styles.preview_container}>
             <div className={styles.meet_info}>
                 <h3>{userDAta && userDAta.userName}</h3>
@@ -239,7 +238,6 @@ export default function Book() {
                 className={styles.calender}
             />
             
-
             {
                     time.length ?(<div className={styles.divider}></div>) : !time.length && error !== "" ? (
                         <div className={styles.divider}></div>
@@ -260,7 +258,7 @@ export default function Book() {
             </div>) : null }
         </div>
 
-            )
+            ) : <p>Loading... </p>
         }
         </>
         

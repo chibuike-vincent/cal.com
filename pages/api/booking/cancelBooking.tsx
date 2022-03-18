@@ -8,11 +8,11 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
         return res.json("Invalid request method provided")
     }
 
-    const data = JSON.parse(req.body)
-    console.log(data, "data")
+    const {id}:any = req.query
+    console.log(id, "data")
 
     const response = await prisma.bookingRec.update({
-        where: {id: data.id},
+        where: {id: id},
         data: { status: 'cancelled' }
     })
 

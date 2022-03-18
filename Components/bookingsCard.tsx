@@ -21,7 +21,7 @@ function BookingsCard(props:Props) {
 
   const handleCancelBooking = async() => {
 
-    const response:any = await fetch("/api/booking/cancelBooking", {
+    const response:any = await fetch(`/api/booking/cancelBooking?id=${props.booking.id}`, {
         method: "PUT"
     })
 
@@ -32,6 +32,8 @@ function BookingsCard(props:Props) {
         // router.push("/")
     }
 }
+
+console.log(new Date(props.booking.date) < new Date(), "moment(props.booking.date).format")
   return (
     <div className={styles.bk_event_card}>
     <div className={styles.bk_card_content}>
@@ -47,10 +49,14 @@ function BookingsCard(props:Props) {
     </div>
 
     </div>
-    <div className={styles.bk_del_btn_container}>
+    {
+      props.booking.status !== "active" || new Date(props.booking.date) < new Date() ? null :(
+        <div className={styles.bk_del_btn_container}>
         <button onClick={() => handleCancelBooking()} className={styles.button}><MdOutlineCancel size={20} /> <span className={styles.bk_btn_span}>Cancel</span></button>
         <button onClick={() => handleOpenModal()} className={styles.button}><BiTimeFive size={20}/> <span className={styles.bk_btn_span}>Reschedule</span></button>
     </div>
+      ) 
+    }
   </div>
   )
 }

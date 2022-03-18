@@ -8,11 +8,21 @@ import styles from '../styles/Home.module.css'
 import { PrismaClient } from '@prisma/client'
 import AvailabilityComponent from "../Components/availability"
 import moment from "moment"
+import * as cookie from 'cookie'
 
-// const prisma = new PrismaClient()
 
-export async function getStaticProps() {
-    // const contactData = await prisma.events.findMany()
+export async function getServerSideProps(context:any) {
+  const sessionCookie = cookie.parse(context.req.headers.cookie);
+  console.log(sessionCookie, "ccccc")
+
+  let startTime;
+  let endTime;
+
+  if(!sessionCookie.token){
+    context.res.setHeader("location", "/");
+    context.res.statusCode = 302;
+    context.res.end();
+  }else{
     const getStartTime = async (time:string) => {
         let start = moment(time, 'hh:mm A').format('HH:mm:ss')
 
@@ -34,16 +44,50 @@ export async function getStaticProps() {
 
         return timeStops
     }
-    const startTime = await getStartTime("09:00 AM")
-    const endTime = await getStartTime("17:00 PM")
-    return {
-        props: {
-            startTime: startTime,
-            endTime: endTime
-        }
-    }
-
+    startTime = await getStartTime("09:00 AM")
+    endTime = await getStartTime("17:00 PM")
+  }
+  return {
+    props: {
+        startTime: startTime,
+        endTime: endTime
+    },
+  };
 }
+
+// export async function getStaticProps() {
+//     // const contactData = await prisma.events.findMany()
+//     const getStartTime = async (time:string) => {
+//         let start = moment(time, 'hh:mm A').format('HH:mm:ss')
+
+//         let end = moment("23:00 PM", 'hh:mm A').format('HH:mm:ss')
+
+//         var startTime = moment(start, 'HH:mm');
+//         var endTime = moment(end, 'HH:mm');
+
+//         if (endTime.isBefore(startTime)) {
+//             endTime.add(1, 'day');
+//         }
+
+//         var timeStops = [];
+
+//         while (startTime <= endTime) {
+//             timeStops.push(moment(startTime).format('HH:mm a'));
+//             startTime.add(15, 'minutes');
+//         }
+
+//         return timeStops
+//     }
+//     const startTime = await getStartTime("09:00 AM")
+//     const endTime = await getStartTime("17:00 PM")
+//     return {
+//         props: {
+//             startTime: startTime,
+//             endTime: endTime
+//         }
+//     }
+
+// }
 
 const daysOfWeek = [{
     id:0,

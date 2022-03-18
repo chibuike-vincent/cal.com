@@ -9,18 +9,39 @@ import { PrismaClient } from '@prisma/client'
 import { BiTimeFive } from 'react-icons/bi';
 import { AiOutlineUser } from 'react-icons/ai';
 import { useRouter } from 'next/router'
+import * as cookie from 'cookie'
 
 const prisma = new PrismaClient()
 
-export async  function getServerSideProps(){
-  const eventTypes = await prisma.eventsType.findMany()
 
-return {
-  props: {
-    events: eventTypes
+
+export async function getServerSideProps(context:any) {
+  const sessionCookie = cookie.parse(context.req.headers.cookie);
+  console.log(sessionCookie, "ccccc")
+  let eventTypes
+  if(!sessionCookie.token){
+    context.res.setHeader("location", "/");
+    context.res.statusCode = 302;
+    context.res.end();
+  }else {
+    eventTypes = await prisma.eventsType.findMany()
   }
+  return {
+    props: {
+      events: eventTypes
+    },
+  };
 }
-}
+// export async  function getServerSideProps(context:any){
+  
+//   const eventTypes = await prisma.eventsType.findMany()
+
+// return {
+//   props: {
+//     events: eventTypes
+//   }
+// }
+// }
 
 
 // const eventData = [
@@ -90,7 +111,7 @@ const Home: NextPage = (props:any) => {
     getData()
    }, [])
 
-   console.log(user, "user")
+  
  
   return (
     <Layout>

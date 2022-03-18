@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse, } from "next";
 import { PrismaClient } from "@prisma/client";
 import * as bcrypt from "bcryptjs";
 import * as jwt from "jsonwebtoken";
+import cookie from "cookie"
 
 const prisma = new PrismaClient()
 
@@ -63,6 +64,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             expiresIn: '1hr',
         }
     );
+
+    res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("token", token, {
+            httpOnly: true,
+            // secure: process.env.NODE_ENV !== "development",
+            maxAge: 60 * 60,
+            sameSite: "strict",
+            path: "/"
+        })
+    )
 
     return res.send({
         responseCode: "00",

@@ -9,6 +9,7 @@ interface Props {
     user:any
 }
 function AvailabilityView(props: Props) {
+    const [isLoading, setIsLoading] = useState(false)
     const { item, day, startTime, endTime, user } = props
     const [availableTimes, setAvailableTime] = useState(
         {
@@ -34,6 +35,7 @@ function AvailabilityView(props: Props) {
             return alert("All fields are required!")
         }
 
+        setIsLoading(true)
         const data = {
             id: item.id,
             day: availableTimes.day,
@@ -48,8 +50,9 @@ function AvailabilityView(props: Props) {
         })
 
         console.log(response)
-        if (response.status === 201) {
-            alert("Created")
+        if (response.status === 200) {
+            setIsLoading(false)
+            alert("Updated")
             //  router.push("")
         }
     }
@@ -89,7 +92,7 @@ function AvailabilityView(props: Props) {
 
 
             <div className={styles.del_btn_container}>
-                <input type="button" onClick={() => updateAvailability()} value="update" className={styles.button} />
+                <input type="button" onClick={() => updateAvailability()} value={isLoading ? "Processing..." : "Update"} className={styles.button} />
 
             </div>
 

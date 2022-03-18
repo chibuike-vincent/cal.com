@@ -4,11 +4,13 @@ import 'react-tabs/style/react-tabs.css';
 import styles from '../styles/Home.module.css'
 import { useRouter } from "next/router"
 import BookingsCard from "./bookingsCard"
+// import Loader from "./loader"
 
 export default function Book() {
     const router = useRouter()
     const [bookingData, setBookingData] = useState<any[]>([])
     const [cancelledBookingData, setCancelledBookingData] = useState<any[]>([])
+    const [pastBookingData, setPastBookingData] = useState<any[]>([])
     const [data, setData] = useState({
         fullName: "",
         profession: "",
@@ -29,9 +31,12 @@ export default function Book() {
            method: "GET"
        })
        const result:any = await response.json()
-       const active = result.filter((item:any) => item.status === "active")
+       console.log(result, "result")
+       const active = result.filter((item:any) => item.status === "active" && new Date(item.date) > new Date())
+       const past = result.filter((item:any) => item.status === "active" && new Date(item.date) < new Date())
        const cancelled = result.filter((item:any) => item.status === "cancelled")
        setBookingData(active)
+       setPastBookingData(past)
        setCancelledBookingData(cancelled)
 
       }
@@ -51,7 +56,10 @@ export default function Book() {
     <>
     <h2>Bookings</h2>
     <p className={styles.bk_comment}>See upcoming and past events booked through your event type links.</p>
-    <Tabs>
+
+    {
+      bookingData.length || cancelledBookingData.length || pastBookingData.length ? (
+        <Tabs>
     <TabList>
       <Tab>Upcoming</Tab>
       <Tab>Past</Tab>
@@ -67,7 +75,11 @@ export default function Book() {
     
     </TabPanel>
     <TabPanel>
-      <h2>No past booking yet</h2>
+    {
+        pastBookingData.length && pastBookingData.map((item:any) => (
+          <BookingsCard booking={item} />
+        ))
+      }
     </TabPanel>
     <TabPanel>
     {
@@ -77,6 +89,11 @@ export default function Book() {
       }
     </TabPanel>
   </Tabs>
+      ) : (
+        <p>Loading...</p>
+      )
+    }
+    
     </>
         
      

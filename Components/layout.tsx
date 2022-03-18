@@ -3,12 +3,23 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 import { useRouter } from 'next/router'
 
+
 interface props{
   children: any
 }
 
 const Layout = (props: props) => {
     const router = useRouter()
+
+    const handleLogout = async() => {
+      const response:any = await fetch("/api/auth/logout", {
+        method: "POST",
+        body: JSON.stringify({})
+    })
+      router.push("/")
+    }
+
+  
   return (
     <div className={styles.container}>
 
@@ -16,7 +27,7 @@ const Layout = (props: props) => {
       <p onClick={() => router.push("/dashboard")} className={styles.side_bar_btn}>Event Types</p>
        <p onClick={() => router.push("/book")} className={styles.side_bar_btn}>Bookings</p>
        <p onClick={() => router.push("/availability")} className={styles.side_bar_btn}>Availability</p>
-       <p onClick={() => router.push("/")} className={styles.side_bar_btn}>Log Out</p>
+       <p onClick={() => handleLogout()} className={styles.side_bar_btn}>Log Out</p>
       </div>
 
      <div className={styles.contents_container}>

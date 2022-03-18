@@ -4,17 +4,21 @@ import Image from 'next/image'
 import Layout from "../Components/layout"
 import Book from "../Components/book"
 import styles from '../styles/Home.module.css'
-import { PrismaClient } from '@prisma/client'
+import * as cookie from 'cookie'
 
-// const prisma = new PrismaClient()
 
-export async  function getServerSideProps(){
-  // const contactData = await prisma.events.findMany()
-return {
-  props: {
-    contacts: ""
+export async function getServerSideProps(context:any) {
+  const sessionCookie = cookie.parse(context.req.headers.cookie);
+  console.log(sessionCookie, "ccccc")
+
+  if(!sessionCookie.token){
+    context.res.setHeader("location", "/");
+    context.res.statusCode = 302;
+    context.res.end();
   }
-}
+  return {
+    props: {},
+  };
 }
 
 

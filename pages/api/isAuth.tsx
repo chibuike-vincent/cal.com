@@ -2,10 +2,11 @@ import { NextApiRequest, NextApiResponse, } from "next";
 import * as jwt from "jsonwebtoken"
  
 
-export const isAuth = async(req: any, res: any, next:any) => {
+export const isAuth = async(req: any, res: NextApiResponse, next:any) => {
   
     try {
-        const token:any = req.headers["authorization"]  
+        // const token:any = req.cookie["authorization"] 
+        const token:any = req.headers["authorization"] ; 
      
         const validToken = await token.split(" ")[1]
         if(validToken){
