@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Layout from "../Components/layout"
 import styles from '../styles/Home.module.css'
 import { useRouter } from "next/router"
+import Link from 'next/link'
 
 export default function SignUp() {
     const [isLoading, setIsLoading] = useState(false)
@@ -53,7 +54,7 @@ export default function SignUp() {
             <input type="email" name='email' value={data.email} onChange={(e) => handleChange(e)} placeholder='Email' className={styles.input} />
             <input type="password" name='password' value={data.password} onChange={(e) => handleChange(e)} placeholder='Password' className={styles.input} />
             <input type="button" onClick={() => signUp()} value={isLoading ? "Processing..." : "Sign Up"} className={styles.button} />
-            <p>Already have an account? <a href="/">Sign In</a></p>
+            <p>Already have an account? <Link href="/">Sign In</Link></p>
         </div>
     </>
         
