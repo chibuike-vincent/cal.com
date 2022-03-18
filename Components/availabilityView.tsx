@@ -53,11 +53,9 @@ function AvailabilityView(props: Props) {
         if (response.status === 200) {
             setIsLoading(false)
             alert("Updated")
-            //  router.push("")
         }
     }
     return (
-        // <div>AvailabilityView</div>
         <div className={styles.av_time_card}>
 
             <div className={styles.av_time_container}>
@@ -65,9 +63,6 @@ function AvailabilityView(props: Props) {
                     <p>{item.day}</p>
                 </div>
             </div>
-
-
-
 
             <div className={styles.av_time_container}>
                 <select onChange={(e) => handleDayTimeChange(e)} value={availableTimes.start} name="start" className={styles.av_time_select}>

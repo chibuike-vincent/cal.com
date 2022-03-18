@@ -8,6 +8,7 @@ import BookingsCard from "./bookingsCard"
 
 export default function Book() {
     const router = useRouter()
+    const [result, setResult] = useState<any[]>([])
     const [bookingData, setBookingData] = useState<any[]>([])
     const [cancelledBookingData, setCancelledBookingData] = useState<any[]>([])
     const [pastBookingData, setPastBookingData] = useState<any[]>([])
@@ -35,6 +36,7 @@ export default function Book() {
        const active = result.filter((item:any) => item.status === "active" && new Date(item.date) > new Date())
        const past = result.filter((item:any) => item.status === "active" && new Date(item.date) < new Date())
        const cancelled = result.filter((item:any) => item.status === "cancelled")
+       setResult(result)
        setBookingData(active)
        setPastBookingData(past)
        setCancelledBookingData(cancelled)
@@ -58,7 +60,7 @@ export default function Book() {
     <p className={styles.bk_comment}>See upcoming and past events booked through your event type links.</p>
 
     {
-      bookingData.length || cancelledBookingData.length || pastBookingData.length ? (
+     !result.length ? <p>No booking record yet</p> : bookingData.length || cancelledBookingData.length || pastBookingData.length ? (
         <Tabs>
     <TabList>
       <Tab>Upcoming</Tab>

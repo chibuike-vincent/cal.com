@@ -13,21 +13,20 @@ interface Props{
 
 function BookingsCard(props:Props) {
   const [isOpen, setIsOpen] = useState(false)
-
-
-  const handleOpenModal = async() => {
-
-  }
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleCancelBooking = async() => {
-
+    setIsLoading(true)
     const response:any = await fetch(`/api/booking/cancelBooking?id=${props.booking.id}`, {
         method: "PUT"
     })
 
     const result = await response.json()
 
-    if(result.responseCode === "00"){
+    console.log(response, result)
+
+    if(response.status === 200){
+      setIsLoading(false)
         alert("Booking cancelled Successfully")
         // router.push("/")
     }
@@ -52,8 +51,8 @@ console.log(new Date(props.booking.date) < new Date(), "moment(props.booking.dat
     {
       props.booking.status !== "active" || new Date(props.booking.date) < new Date() ? null :(
         <div className={styles.bk_del_btn_container}>
-        <button onClick={() => handleCancelBooking()} className={styles.button}><MdOutlineCancel size={20} /> <span className={styles.bk_btn_span}>Cancel</span></button>
-        <button onClick={() => handleOpenModal()} className={styles.button}><BiTimeFive size={20}/> <span className={styles.bk_btn_span}>Reschedule</span></button>
+        <button onClick={() => handleCancelBooking()} className={styles.button}>{isLoading ? "Processing..." : <><MdOutlineCancel size={20} /> <span className={styles.bk_btn_span}>Cancel</span></>}</button>
+        <button onClick={() => console.log("reschedule event")} className={styles.button}><BiTimeFive size={20}/> <span className={styles.bk_btn_span}>Reschedule</span></button>
     </div>
       ) 
     }

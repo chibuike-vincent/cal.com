@@ -19,8 +19,6 @@ export default async(req: any, res: any) =>{
         }
       })
 
-      console.log(response, "response vvvvv")
-
     return res.json(response)
 }
 

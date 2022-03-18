@@ -151,7 +151,7 @@ function Availability(props:Props) {
         </div>
         <h2>My Availabilities</h2>
        {
-           availableDAta.length ? availableDAta.map((item:any) => (
+          !availableDAta.length ? <p>You are yet to set your availability.</p> : availableDAta.length ? availableDAta.map((item:any) => (
                 <AvailabilityView item={item} day={day} startTime={startTime} endTime={endTime} user={user} />
             )) : <p>Loading...</p>
        }
