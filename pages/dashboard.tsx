@@ -153,7 +153,7 @@ const Home: NextPage = (props: any) => {
                   type="button"
                   onClick={() =>
                     clickToCopy(
-                      `http://localhost:3000/${user.id}/${event.id}`
+                      `https://vincent-cal-clone.vercel.app/${user.id}/${event.id}`
                     )
                   }
                   value="copy link"
