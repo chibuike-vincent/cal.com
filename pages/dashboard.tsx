@@ -90,6 +90,8 @@ export async function getServerSideProps(context: any) {
 
 // saveEvents()
 
+
+
 const Home: NextPage = (props: any) => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
