@@ -11,11 +11,11 @@ export default async (req: NextApiRequest, res: NextApiResponse, next:any) => {
         return res.json("Invalid request method provided")
     }
 
-    const ownerId:any = req.query
-    console.log(ownerId, "data")
+    const owner:any = req.query
+    console.log(owner, "data")
 
     const response:any = await prisma.availabilities.findMany({where: {
-        owner: ownerId.id
+        owner: owner.id
     }})
 
     return res.json(response)

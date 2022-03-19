@@ -140,7 +140,7 @@ const Home: NextPage = (props: any) => {
              
               <div className="w-1/5  flex items-center justify-around">
                 <div className="flex flex-col justify-center items-center cursor-pointer" onClick={() =>
-                    router.push(`/${user.userName}/${event.title}`)
+                    router.push(`/${user.id}/${event.id}`)
                   }>
                 <MdPreview size={20} />
                   <p className="text-xs">Preview</p>
@@ -148,7 +148,7 @@ const Home: NextPage = (props: any) => {
                 
                 <div className="flex flex-col justify-center items-center cursor-pointer" onClick={() =>
                     clickToCopy(
-                      `http://localhost:3000/${user.userName}/${event.title}` // BaseURL to be added to env
+                      `http://localhost:3000/${user.id}/${event.id}` // BaseURL to be added to env
                     )
                   }>
                 <CgCopy size={20} />

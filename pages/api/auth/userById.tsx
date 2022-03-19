@@ -15,7 +15,7 @@ export default async(req: any, res: any) =>{
 
     const response = await prisma.user.findUnique({
         where: {
-            userName: user.username
+            id: user.id
         }
       })
 

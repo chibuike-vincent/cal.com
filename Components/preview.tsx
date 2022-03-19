@@ -55,8 +55,8 @@ export default function Book() {
         fetch(`/api/availability/getAvailabilities?id=${user}`).then((resp) =>
           resp.json()
         ),
-        fetch(`/api/event/eventById?title=${preview}`).then((resp) => resp.json()),
-        fetch(`/api/auth/userById?username=${user}`).then((resp) => resp.json()),
+        fetch(`/api/event/eventById?id=${preview}`).then((resp) => resp.json()),
+        fetch(`/api/auth/userById?id=${user}`).then((resp) => resp.json()),
       ]).then((res) => {
         setAvailableData(res[0]);
         setEventData(res[1]);

@@ -15,7 +15,7 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
 
     const response = await prisma.eventsType.findFirst({
         where: {
-            title: event.title
+            id: event.id
         }
       })
 
