@@ -40,7 +40,7 @@ export async function getServerSideProps(context:any) {
         return timeStops
     }
     startTime = await getStartTime("09:00 AM")
-    endTime = await getStartTime("17:00 PM")
+    endTime = await getStartTime("09:00 AM")
   }
   return {
     props: {
