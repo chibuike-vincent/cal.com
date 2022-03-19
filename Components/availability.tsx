@@ -1,162 +1,168 @@
-import React, {useState, useEffect} from 'react'
-import styles from '../styles/Home.module.css'
-import { RiDeleteBinLine } from 'react-icons/ri';
-import { IoMdAdd } from "react-icons/io"
-import { useRouter } from "next/router"
-import AvailabilityView from './availabilityView';
-
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import AvailabilityView from "./availabilityView";
 
 export async function getServerSideProps() {
-    const response:any = await fetch("/api/availability/getAvailabilities", {
-        method: "POST"
-    })
-    return{
-        props: {
-            availabilities: []
-        }
-    }
+  const response: any = await fetch("/api/availability/getAvailabilities", {
+    method: "POST",
+  });
+  return {
+    props: {
+      availabilities: [],
+    },
+  };
 }
 
-interface Props{
-    day:any,
-    startTime: any,
-    endTime:any
+interface Props {
+  day: any;
+  startTime: any;
+  endTime: any;
 }
-function Availability(props:Props) {
-    const {day, startTime, endTime} = props
-    const [checked, setChecked] = useState(false);
-    const [selected, setSelected] = useState(null);
-    const [user, setUser] = useState<any>(null)
-    const [availableDAta, setAvailableData] = useState<any[]>([])
-    const [isLoading, setIsLoading] = useState(false)
-    const router = useRouter()
-    const [availableTimes, setAvailableTime] = useState(
+function Availability(props: Props) {
+  const { day, startTime, endTime } = props;
+  const [user, setUser] = useState<any>(null);
+  const [availableDAta, setAvailableData] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const [availableTimes, setAvailableTime] = useState({
+    day: "",
+    start: "",
+    end: "",
+  });
+
+  useEffect(() => {
+    const getData = async () => {
+      const user: any = await localStorage.getItem("user");
+      const res = JSON.parse(user);
+      setUser(res);
+
+      const response: any = await fetch(
+        `/api/availability/getAvailabilities?id=${res.id}`,
         {
-            day: "",
-            start: "",
-            end: ""
-        })
+          method: "GET",
+        }
+      );
+      const result: any = await response.json();
+      setAvailableData(result);
+    };
+    getData();
+  }, []);
 
-    
-    
+  const handleDayTimeChange = (e: any) => {
+    const { name, value } = e.target;
 
-    useEffect(() => {
-       const getData = async() => {
-        const user:any = await localStorage.getItem("user")
-        const res = JSON.parse(user)
-        setUser(res)
+    console.log(value, "value");
+    setAvailableTime({
+      ...availableTimes,
+      [name]: value,
+    });
+  };
 
-        console.log(res, "from res")
+  const saveAvailability = async () => {
+    if (
+      availableTimes.day === "" ||
+      availableTimes.start === "" ||
+      availableTimes.end === ""
+    ) {
+      return alert("All fields are required!");
+    }
 
-        const response:any = await fetch(`/api/availability/getAvailabilities?id=${res.id}`, {
-            method: "GET"
-        })
-        const result:any = await response.json()
-        setAvailableData(result)
+    setIsLoading(true);
 
-       }
-       getData()
-      }, [])
-      
-      console.log(user, availableDAta,"user")
-
-    const handleChange = () => {
-        setChecked(!checked);
-        setSelected(day.day)
+    const data = {
+      day: availableTimes.day,
+      start: availableTimes.start,
+      end: availableTimes.end,
+      owner: user.id,
     };
 
-   
-    const handleDayTimeChange = (e:any) => {
-        const {name,value}= e.target
+    const response: any = await fetch("/api/availability/create", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
 
-        console.log(value, "value")
-        setAvailableTime({
-            ...availableTimes,
-            [name]: value
-        })        
+    if (response.status === 200) {
+      setIsLoading(false);
+      alert("Created");
     }
+  };
 
-
-    const saveAvailability = async() => {
-        if(availableTimes.day === "" || availableTimes.start === "" || availableTimes.end === ""){
-            return alert("All fields are required!")
-        }
-
-        setIsLoading(true)
-
-        const data = {
-            day:availableTimes.day,
-            start: availableTimes.start,
-            end: availableTimes.end,
-            owner: user.id
-        }
-
-         const response:any = await fetch("/api/availability/create", {
-             method: "POST",
-             body: JSON.stringify(data)
-         })
- 
-         console.log(response)
-         if(response.status === 200){
-             setIsLoading(false)
-             alert("Created")
-            //  router.push("")
-         }
-    }
-    console.log(selected, checked)
-
-    return (
-        <>
-         <h2>Create Availabilities</h2>
-        <div className={styles.av_time_card}>
-
-                <div className={styles.av_time_container}>
-                <select onChange={(e) => handleDayTimeChange(e)} value={availableTimes.day} name="day" className={styles.av_day_select}>
-                    <option  value="">Select Day</option>
-                      {
-                          day.map((t:any, i:any) => (
-                              <option key={t.id} value={t.day}>{t.day}</option>
-                          ))
-                      }
-                  </select>
-                </div>
-
-                <div className={styles.av_time_container}>
-                    <select onChange={(e) => handleDayTimeChange(e)} value={availableTimes.start} name="start" className={styles.av_time_select}>
-                        <option  value="">Select start time</option>
-                        {
-                            startTime.map((t:any, i:any) => (
-                                <option key={i} value={t}>{t}</option>
-                            ))
-                        }
-                    </select>
-                    <h3>-</h3>
-                    <select onChange={(e) => handleDayTimeChange(e)} value={availableTimes.end} name="end" className={styles.av_time_select}>
-                        <option  value="">Select end time</option>
-                    {
-                            endTime.map((t:any, i:any) => (
-                                <option key={i} value={t}>{t}</option>
-                            ))
-                        }
-                    </select>
-                </div>
-                 
-
-                
-                        <div className={styles.del_btn_container}>
-                         <input type="button" onClick={() => saveAvailability()} value={isLoading ? "Processing..." : "Submit"} className={styles.button} />
-    
-                    </div>
-                    
+  return (
+    <>
+      <h2 className="text-2xl font-bold">Create Availabilities</h2>
+      <div className="w-full flex justify-between items-center">
+        <div className="p-5 flex justify-around">
+          <select
+            onChange={(e) => handleDayTimeChange(e)}
+            value={availableTimes.day}
+            name="day"
+            className="m-1.5 p-4 rounded-md"
+          >
+            <option value="">Select Day</option>
+            {day.map((t: any, i: any) => (
+              <option key={t.id} value={t.day}>
+                {t.day}
+              </option>
+            ))}
+          </select>
         </div>
-        <h2>My Availabilities</h2>
-       {
-          !availableDAta.length ? <p>You are yet to set your availability.</p> : availableDAta.length ? availableDAta.map((item:any) => (
-                <AvailabilityView item={item} day={day} startTime={startTime} endTime={endTime} user={user} />
-            )) : <p>Loading...</p>
-       }
-        </>
-    )
+        <div className="p-5 flex justify-around">
+          <select
+            onChange={(e) => handleDayTimeChange(e)}
+            value={availableTimes.start}
+            name="start"
+            className="m-1.5 p-4 rounded-md"
+          >
+            <option value="">Select start time</option>
+            {startTime.map((t: any, i: any) => (
+              <option key={i} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+          <h3 className="font-bold mt-5">-</h3>
+          <select
+            onChange={(e) => handleDayTimeChange(e)}
+            value={availableTimes.end}
+            name="end"
+            className="m-1.5 p-4 rounded-md"
+          >
+            <option value="">Select end time</option>
+            {endTime.map((t: any, i: any) => (
+              <option key={i} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="w-1/5 flex justify-center items-end">
+          <input
+            type="button"
+            onClick={() => saveAvailability()}
+            value={isLoading ? "Processing..." : "Submit"}
+            className="m-5 border-none bg-red-800 cursor-pointer text-white p-4 font-bold rounded-md"
+          />
+        </div>
+      </div>
+      <h2 className="text-2xl font-bold">My Availabilities</h2>
+      {!availableDAta.length ? (
+        <p>You are yet to set your availability.</p>
+      ) : availableDAta.length ? (
+        availableDAta.map((item: any) => (
+          <AvailabilityView
+            item={item}
+            day={day}
+            startTime={startTime}
+            endTime={endTime}
+            user={user}
+          />
+        ))
+      ) : (
+        <p>Loading...</p>
+      )}
+    </>
+  );
 }
 
-export default Availability
+export default Availability;

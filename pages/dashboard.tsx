@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 
 import type { NextPage } from "next";
-import Head from "next/head";
-import Image from "next/image";
 import Layout from "../Components/layout";
-import styles from "../styles/Home.module.css";
 import { PrismaClient } from "@prisma/client";
 import { BiTimeFive } from "react-icons/bi";
 import { AiOutlineUser } from "react-icons/ai";
 import { useRouter } from "next/router";
 import * as cookie from "cookie";
+import {CgCopy} from "react-icons/cg"
+import {MdPreview} from "react-icons/md"
 
 const prisma = new PrismaClient();
 
@@ -114,51 +113,52 @@ const Home: NextPage = (props: any) => {
 
   console.log(owner);
 
+  // color: rgb(175, 170, 170);
+  // font-size: small;
+  // line-height: 0.9px;
+
   return (
     <Layout>
-      <p className={styles.contact_title}>Event types</p>
-      <div className={styles.card_container}>
+      <p className="ml-10 font-bold text-3xl font-mono text-red-800 mt-20 mb-5">Event types</p>
+      <div className="w-full flex-wrap flex justify-around">
         {props.events.map((event: any) => {
-          const eventId = event.id;
-          const eventType = eventId.replace(event.title.split(" ")[0]);
-          console.log(eventType);
+          
           return (
-            <div key={event.id} className={styles.event_card}>
-              <div className={styles.card_content}>
-                <p className={styles.content_name}>
+            <div key={event.id} className="w-2/5 bg-white m-5 flex flex-row justify-between rounded-md p-2">
+              <div className="ml-2.5 w-4/5 ">
+                <p className="text-xl font-bold leading-normal">
                   {event.title}
-                  <span className={styles.owner}>
+                  <span className="text-gray-800 leading-3 text-xs">
                     {`/${user?.userName}/${event.title.split(" ")[0]}`}{" "}
                     {event.title.includes("min") ? "min" : null}
                   </span>
                 </p>
-                <p className={styles.owner}>{event.description}</p>
-                <p className={styles.owner}>
-                  <BiTimeFive /> {event.duration}min
+                <p className="text-gray-800 leading-3 text-xs">{event.description}</p>
+                <p className="text-gray-800 pt-2 leading-3 text-1xl flex">
+                  <BiTimeFive size={15} /> {event.duration} min
                 </p>
-                <p className={styles.owner}>
-                  <AiOutlineUser /> {event.type}
+                <p className="text-gray-800 pt-2 leading-4 text-xs flex">
+                  <AiOutlineUser size={15} /> {event.type}
                 </p>
               </div>
-              <div className={styles.del_btn_container}>
-                <input
-                  type="button"
-                  onClick={() =>
+
+             
+              <div className="w-1/5  flex items-center justify-around">
+                <div className="flex flex-col justify-center items-center cursor-pointer" onClick={() =>
                     router.push(`/${user.id}/${event.id}`)
-                  }
-                  value="preview"
-                  className={styles.button}
-                />
-                <input
-                  type="button"
-                  onClick={() =>
+                  }>
+                <MdPreview size={20} />
+                  <p className="text-xs">Preview</p>
+                  </div>
+                
+                <div className="flex flex-col justify-center items-center cursor-pointer" onClick={() =>
                     clickToCopy(
-                      `https://vincent-cal-clone.vercel.app/${user.id}/${event.id}`
+                      `http://localhost:3000/${user.id}/${event.id}`
                     )
-                  }
-                  value="copy link"
-                  className={styles.button}
-                />
+                  }>
+                <CgCopy size={20} />
+                  <p className="text-xs">Copy link</p>
+                  </div>
               </div>
             </div>
           );

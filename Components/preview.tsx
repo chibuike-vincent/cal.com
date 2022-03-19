@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import Image from "next/image";
-import Layout from "./layout";
-import styles from "../styles/Home.module.css";
 import { useRouter } from "next/router";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import NestedSelect from "./nestedSelect";
 import moment from "moment";
+import timeZones from "./timeZone.json"
 
 interface User {
   id: string;
@@ -163,112 +159,122 @@ export default function Book() {
   return (
     <>
       {selectedTime !== "" ? (
-        <div className={styles.preview_container_two}>
-          <div className={styles.meet_info_two}>
-            <h3>{userDAta && userDAta.userName}</h3>
-            <h1>{eventDAta && eventDAta.title}</h1>
-            <p>{eventDAta && eventDAta.duration} min</p>
-            <p>
+       <div className="w-3/5 flex justify-center  bg-white p-12 ml-80 mt-20 h-4/5">
+       <div className="w-2/5">
+            <h3 className="font-bold text-6xl leading-12 mb-8">{userDAta && userDAta.userName}</h3>
+            <h1 className="font-bold text-3xl text-gray-600 leading-12">{eventDAta && eventDAta.title}</h1>
+            <p className="font-bold text-2xl text-gray-400 leading-9">{eventDAta && eventDAta.duration} min</p>
+            <p className="text-green-600 font-bold leading-9">
               {moment(value).format("dddd, MMMM Do, YYYY")} {selectedTime}
             </p>
           </div>
-          <div className={styles.divider}></div>
+          <div className="w-1 bg-gray-200 m-2.5"></div>
 
-          <div className={styles.info_input}>
-            <label className={styles.bk_label}>Your Name</label>
+          
+          <div className="w-3/5 ml-5">
+            <label className="ml-2.5 text-gray-600">Your Name</label>
             <input
               type="text"
               name="userName"
               value={data.userName}
               onChange={(e) => handleInputChange(e)}
               placeholder="John Doe"
-              className={styles.bk_input}
+              className="w-full m-2.5 p-5 rounded-md border-2 border-solid border-black-600"
             />
-            <label className={styles.bk_label}>Email</label>
+            <label className="ml-2.5 text-gray-600">Email</label>
             <input
               type="email"
               name="email"
               value={data.email}
               onChange={(e) => handleInputChange(e)}
               placeholder="me@gmail.com"
-              className={styles.bk_input}
+              className="w-full m-2.5 p-5 rounded-md border-2 border-solid border-black-600"
             />
             {isMoreGuest ? (
               <>
-                <label className={styles.bk_label}>Geusts </label>
+                <label className="ml-2.5 text-gray-600">Geusts </label>
                 <input
                   type="email"
                   name="email"
                   value={data.email}
                   onChange={(e) => handleInputChange(e)}
                   placeholder="guest@gmail.com"
-                  className={styles.bk_input}
+                  className="w-full m-2.5 p-5 rounded-md border-2 border-solid border-black-600"
                 />
               </>
             ) : (
               <p
-                className={styles.add_guest_label}
+                className="ml-2.5 cursor-pointer text-gray-800 m-2"
                 onClick={() => setIsMoreGuest(!isMoreGuest)}
               >
                 + Additional Geusts{" "}
               </p>
             )}
 
-            <label className={styles.bk_label}>Additional Notes</label>
+
+
+            <label className="ml-2.5 text-gray-600">Additional Notes</label>
             <textarea
               name="notes"
               value={data.notes}
               onChange={(e) => handleInputChange(e)}
               placeholder="Please help share anything that will help prepare for our meeting"
-              className={styles.bk_input}
+              className="w-full m-2.5 p-5 rounded-md border-2 border-solid border-black-600"
             />
-            <div className={styles.bk_btn_container}>
+            <div className="w-full flex">
               <input
                 type="button"
                 onClick={() => handleBooking()}
                 value={isLoading ? "Processing..." : "Confirm"}
-                className={styles.button}
+                className="m-5 border-none bg-red-700 cursor-pointer text-white p-4 font-bold rounded-md"
               />
               <input
                 disabled={true}
                 type="button"
                 onClick={() => console.log("Cancel")}
                 value="Cancel"
-                className={styles.buttonCancel}
+                className="m-5 border-none bg-gray-400 cursor-not-allowed text-white p-4 font-bold rounded-md"
               />
             </div>
           </div>
         </div>
       ) : userDAta && userDAta.userName ? (
-        <div className={styles.preview_container}>
-          <div className={styles.meet_info}>
-            <h3>{userDAta && userDAta.userName}</h3>
-            <h1>{eventDAta && eventDAta.title}</h1>
-            <p>{eventDAta && eventDAta.duration} min</p>
-            <NestedSelect setTimeZone={(e: any) => setTimeZone(e)} />
+        <div className="w-3/5 flex justify-center h-2/5  bg-white p-12 ml-80 mt-60">
+          <div className="w-2/5">
+            <h3 className="font-bold text-6xl leading-12 mb-8 ">{userDAta && userDAta.userName}</h3>
+            <h1 className="font-bold text-3xl text-gray-600 leading-12">{eventDAta && eventDAta.title}</h1>
+            <p className="font-bold text-2xl text-gray-400 leading-12">{eventDAta && eventDAta.duration} min</p>
+            <select onChange={(e) => setTimeZone(e.target.value)} value={timeZone} className="m-1.5 p-4 rounded-sm">
+                        <option  value="">Select Time Zone</option>
+                        {
+                            timeZones.map((t:any, i:any) => (
+                                <option key={i} value={t}>{t}</option>
+                            ))
+                        }
+                    </select>
           </div>
-          <div className={styles.divider}></div>
+          <div className="w-1 bg-gray-200 m-2.5"></div>
 
           <Calendar
             onChange={(e: any) => handleChange(e)}
             value={value}
-            className={styles.calender}
+            
           />
 
           {time.length ? (
-            <div className={styles.divider}></div>
+            <div className="w-1 bg-gray-200 m-2.5"></div>
           ) : !time.length && error !== "" ? (
-            <div className={styles.divider}></div>
+            <div className="w-1 bg-gray-200 m-2.5"></div>
           ) : null}
 
           {time.length ? (
-            <div className={styles.slot}>
+            <div className="h-full overflow-y-scroll p-7">
               {time.length ? (
                 time.map((t, index) => (
                   <div
                     key={index}
                     onClick={() => setSelectedTime(t)}
-                    className={styles.slotTime}
+                    className="p-2.5 border-solid border-2 rounded-md border-gray-400  mb-2.5 w-full hover:bg-black hover:text-white hover:border-none cursor-pointer"
                   >
                     <p>{t}</p>
                   </div>

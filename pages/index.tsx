@@ -1,5 +1,4 @@
 import React, {useState} from "react"
-import styles from '../styles/Home.module.css'
 import { useRouter } from "next/router"
 import Link from 'next/link'
 
@@ -43,15 +42,26 @@ export default function Login() {
             alert(result.message)
         }
     }
+
+// /width: 100%;
+// display: flex;
+// flex-direction: column;
+// align-items: center;
+// justify-content: center;
+// text-align: center;
+
   return (
     <>
-        <p className={styles.add_contact_title}>Login</p>
-        <div className={styles.form}>
-            <input type="email" name='email' value={data.email} onChange={(e) => handleChange(e)} placeholder='Email' className={styles.input} />
-            <input type="password" name='password' value={data.password} onChange={(e) => handleChange(e)} placeholder='Password' className={styles.input} />
-            <input type="button" onClick={() => login()} value={isLoading ? "Processing..." : "Login"} className={styles.button} />
+        <p className="text-3xl font-bold text-red-600 text-center mt-20 mb-10">Login</p>
+        <div className="w-full flex flex-col justify-center items-center text-center">
+            <input type="email" name='email' value={data.email} onChange={(e) => handleChange(e)} placeholder='Email' 
+            className="border-solid border-2 border-black-400 m-5 w-1/2 p-4 rounded-md" />
+            <input type="password" name='password' value={data.password} onChange={(e) => handleChange(e)} placeholder='Password' 
+            className="border-solid border-2 border-black-400 m-5 w-1/2 p-4 rounded-md" />
+            <input type="button" onClick={() => login()} value={isLoading ? "Processing..." : "Login"} 
+            className="m-5 border-none bg-red-700 text-white p-4 cursor-pointer font-bold rounded-md" />
             
-            <p>Don't have an account? <Link href="/sign_up">Sign Up</Link> </p>
+            <p >Don't have an account? <Link href="/sign_up" ><span className="text-red-400 hover:text-red-600 cursor-pointer">Sign Up</span></Link> </p>
             
         </div>
     </>

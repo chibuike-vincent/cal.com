@@ -1,9 +1,6 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
 import Layout from "../Components/layout"
 import Book from "../Components/book"
-import styles from '../styles/Home.module.css'
 import * as cookie from 'cookie'
 
 
@@ -21,12 +18,10 @@ export async function getServerSideProps(context:any) {
   };
 }
 
-
-
 const BookPage: NextPage = (props:any) => {
   return (
     <Layout>
-      <div className={styles.booking_main_container}>
+      <div className="w-full p-7 overflow-hidden">
         <Book />
       </div>
     </Layout>

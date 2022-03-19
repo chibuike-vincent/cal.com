@@ -1,11 +1,6 @@
 import React, { useState } from "react"
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
 import Layout from "../Components/layout"
-import Book from "../Components/book"
-import styles from '../styles/Home.module.css'
-import { PrismaClient } from '@prisma/client'
 import AvailabilityComponent from "../Components/availability"
 import moment from "moment"
 import * as cookie from 'cookie'
@@ -114,13 +109,13 @@ const daysOfWeek = [{
 
 
 const Availability: NextPage = (props: any) => {
-    
+   
     return (
         <Layout>
-            <div className={styles.booking_main_container}>
-                <h2>Availability</h2>
-                <p className={styles.bk_comment}>Configure times when you are available for bookings.</p>
-                <div className={styles.av_container_card}>
+            <div className="w-full p-7">
+                <h2 className="text-3xl font-bold">Availability</h2>
+                <p className="mb-20 leading-3 pt-3 text-gray-600">Configure times when you are available for bookings.</p>
+                <div className="w-full bg-white m-5 mb-20 flex flex-col justify-between rounded-md p-5">
                     
                                 <AvailabilityComponent day={daysOfWeek}  startTime={props.startTime} endTime={props.endTime} />
                               
