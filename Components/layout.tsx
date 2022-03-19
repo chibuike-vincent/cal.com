@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import { useRouter } from 'next/router'
 
 
@@ -18,6 +19,12 @@ const Layout = (props: props) => {
   
   return (
     <div className="w-full max-h-screen overflow-y-hidden flex">
+      <Head>
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+    </Head>
 
       <div className="w-1/6 flex flex-col items-center p-2 bg-red-800  pt-14">
       <p onClick={() => router.push("/dashboard")} className="w-full pl-10 m-5  text-white cursor-pointer border-none rounded-md text-2xl font-bold text-left">Event Types</p>
