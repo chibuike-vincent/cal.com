@@ -42,7 +42,7 @@ export async function getServerSideProps(context: any) {
 
 // const eventData = [
 //   {
-//     title:"15 min meeting",
+//     title:"15 min",
 //     description:"A 15 min meeting to discuss issues",
 //     type: "1-on-1",
 //     duration:15,
@@ -50,7 +50,7 @@ export async function getServerSideProps(context: any) {
 //     location: "google meet"
 //   },
 //   {
-//     title:"Secret Meeting",
+//     title:"Secret",
 //     description:"A meeting to discuss secret issues",
 //     type: "1-on-1",
 //     duration:45,
@@ -58,7 +58,7 @@ export async function getServerSideProps(context: any) {
 //     location: "google meet"
 //   },
 //   {
-//     title:"Dev brainstorm",
+//     title:"Dev-brainstorm",
 //     description:"A brainstorming session for developers",
 //     type: "1-on-1",
 //     duration:30,
@@ -66,7 +66,7 @@ export async function getServerSideProps(context: any) {
 //     location: "google meet"
 //   },
 //   {
-//     title:"Board Meeting",
+//     title:"Interview",
 //     description:"A board meeting to discuss issues",
 //     type: "1-on-1",
 //     duration:60,
@@ -93,15 +93,12 @@ export async function getServerSideProps(context: any) {
 const Home: NextPage = (props: any) => {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
-  const [owner, setOwner] = useState<any>("");
 
   useEffect(() => {
     const getData = async () => {
       const user: any = await localStorage.getItem("user");
       const res = JSON.parse(user);
       setUser(res);
-      const userId = res.id;
-      setOwner(userId.replace(res.userName));
     };
     getData();
   }, []);
@@ -111,11 +108,7 @@ const Home: NextPage = (props: any) => {
     alert("Link Copied");
   };
 
-  console.log(owner);
-
-  // color: rgb(175, 170, 170);
-  // font-size: small;
-  // line-height: 0.9px;
+  
 
   return (
     <Layout>
@@ -145,7 +138,7 @@ const Home: NextPage = (props: any) => {
              
               <div className="w-1/5  flex items-center justify-around">
                 <div className="flex flex-col justify-center items-center cursor-pointer" onClick={() =>
-                    router.push(`/${user.id}/${event.id}`)
+                    router.push(`/${user.userName}/${event.title}`)
                   }>
                 <MdPreview size={20} />
                   <p className="text-xs">Preview</p>
@@ -153,7 +146,7 @@ const Home: NextPage = (props: any) => {
                 
                 <div className="flex flex-col justify-center items-center cursor-pointer" onClick={() =>
                     clickToCopy(
-                      `https://vincent-cal-clone.vercel.app/${user.id}/${event.id}` // BaseURL to be added to env
+                      `https://vincent-cal-clone.vercel.app/${user.userName}/${event.title}` // BaseURL to be added to env
                     )
                   }>
                 <CgCopy size={20} />

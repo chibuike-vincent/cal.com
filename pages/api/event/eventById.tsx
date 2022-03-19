@@ -10,12 +10,12 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
         return res.json("Invalid request method provided")
     }
 
-    const eventId:any = req.query
-    console.log(eventId, "data")
+    const event:any = req.query
+    console.log(event, "data")
 
     const response = await prisma.eventsType.findFirst({
         where: {
-            id: eventId.id
+            title: event.title
         }
       })
 

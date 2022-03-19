@@ -10,12 +10,12 @@ export default async(req: any, res: any) =>{
         return res.json("Invalid request method provided")
     }
 
-    const userId:any = req.query
-    console.log(userId, "dataddddd")
+    const user:any = req.query
+    console.log(user, "dataddddd")
 
     const response = await prisma.user.findUnique({
         where: {
-            id: userId.id
+            userName: user.username
         }
       })
 

@@ -41,7 +41,7 @@ model BookingDoc {
 
 model EventsType {
   id String @id @default(cuid())
-  title String
+  title String @unique
   description String
   type String
   duration Int
@@ -73,7 +73,7 @@ model Availabilities{
 
 model User {
   id String @id @default(cuid())
-  userName String
-  email String
+  userName String @unique
+  email String 
   password String
 }
