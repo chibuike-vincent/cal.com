@@ -41,7 +41,7 @@ function Availability(props: Props) {
       setUser(res);
 
       const response: any = await fetch(
-        `/api/availability/getAvailabilities?id=${res.id}`,
+        `/api/availability/getAvailabilities?id=${res.userName}`,
         {
           method: "GET",
         }
@@ -80,7 +80,7 @@ function Availability(props: Props) {
       day: availableTimes.day,
       start: availableTimes.start,
       end: availableTimes.end,
-      owner: user.id,
+      owner: user.userName,
     };
 
     const response: any = await fetch("/api/availability/create", {
