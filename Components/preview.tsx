@@ -258,7 +258,7 @@ export default function Book() {
           <Calendar
             onChange={(e: any) => handleChange(e)}
             value={value}
-            
+            minDate={new Date()}
           />
 
           {time.length ? (
@@ -286,7 +286,9 @@ export default function Book() {
           ) : null}
         </div>
       ) : (
-        <p>Loading... </p>
+        <div className=" w-full flex justify-center self-center items-center font-bold text-1xl">
+          <p >Loading... </p>
+        </div>
       )}
     </>
   );

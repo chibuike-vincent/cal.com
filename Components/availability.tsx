@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import AvailabilityView from "./availabilityView";
+import MessageBox from "./messageBox"
+import {GrSchedule} from "react-icons/gr"
 
 export async function getServerSideProps() {
   const response: any = await fetch("/api/availability/getAvailabilities", {
@@ -23,6 +25,7 @@ function Availability(props: Props) {
   const [user, setUser] = useState<any>(null);
   const [availableDAta, setAvailableData] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetching, setIsFetching] = useState(false)
   const router = useRouter();
   const [availableTimes, setAvailableTime] = useState({
     day: "",
@@ -32,6 +35,7 @@ function Availability(props: Props) {
 
   useEffect(() => {
     const getData = async () => {
+      setIsFetching(true)
       const user: any = await localStorage.getItem("user");
       const res = JSON.parse(user);
       setUser(res);
@@ -42,8 +46,11 @@ function Availability(props: Props) {
           method: "GET",
         }
       );
-      const result: any = await response.json();
-      setAvailableData(result);
+      if(response){
+        const result: any = await response.json();
+        setAvailableData(result);
+        setIsFetching(false)
+      }
     };
     getData();
   }, []);
@@ -146,9 +153,9 @@ function Availability(props: Props) {
         </div>
       </div>
       <h2 className="text-2xl font-bold">My Availabilities</h2>
-      {!availableDAta.length ? (
-        <p>You are yet to set your availability.</p>
-      ) : availableDAta.length ? (
+      {isFetching ?  <div className=" w-full flex justify-center p-20 self-center items-center font-bold text-1xl">
+          <p >Loading... </p>
+        </div> : availableDAta.length ? (
         availableDAta.map((item: any) => (
           <AvailabilityView
             item={item}
@@ -159,7 +166,7 @@ function Availability(props: Props) {
           />
         ))
       ) : (
-        <p>Loading...</p>
+        <MessageBox message="You are yet to set your availability." icon={<GrSchedule size={60}/>}/>
       )}
     </>
   );
