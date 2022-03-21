@@ -11,11 +11,12 @@ export default async(req: any, res: any) =>{
     }
 
     const user:any = req.query
-    console.log(user, "dataddddd")
+    const id:number = Number(user.id)
+    console.log(id, "dataddddd")
 
     const response = await prisma.user.findUnique({
         where: {
-            id: Number(user.id)
+            id: id
         }
       })
 
