@@ -4,19 +4,18 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient()
 
-export default async(req: any, res: any) =>{
+export default async(req: NextApiRequest, res:NextApiResponse) =>{
 
     if(req.method !== "GET"){
         return res.json("Invalid request method provided")
     }
 
     const user:any = req.query
-    const id:number = Number(user.id)
-    console.log(id, "dataddddd")
+    console.log(user.id, "dataddddd")
 
     const response = await prisma.user.findUnique({
         where: {
-            id
+            id: Number(user.id)
         }
       })
 
