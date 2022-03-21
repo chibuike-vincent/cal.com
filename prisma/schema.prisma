@@ -10,70 +10,60 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model BookingRec {
-  id String @id @default(cuid())
-  date DateTime
-  startTime String 
-  endTime String 
-  ownerName String
-  ownerEmail String
-  title String
-  attendees String
-  attendeeEmail String
-  owner String
-  status String
+model Attendees {
+  id         Int          @id @default(autoincrement())
+  name       String
+  email      String
+  BookingId    Int
 }
 
-
-model BookingDoc {
-  id String @id @default(cuid())
-  date DateTime
-  startTime String 
-  endTime String 
-  ownerName String
-  ownerEmail String
-  title String
-  attendees String
+model BookingRec {
+  id            Int        @id @default(autoincrement())
+  date          DateTime
+  startTime     String
+  endTime       String
+  ownerName     String
+  ownerEmail    String
+  title         String
+  attendees     String
+  attendeeId    Int?
   attendeeEmail String
-  owner String
-  status String
+  owner         Int
+  status        String
+  createdAt     DateTime   @default(now())
 }
 
 model EventsType {
-  id String @id @default(cuid())
-  title String @unique
+  id          Int      @id @default(autoincrement())
+  title       String   @unique
   description String
-  type String
-  duration Int
-  url String
-  location String
+  type        String
+  duration    Int
+  url         String
+  location    String
+  createdAt   DateTime @default(now())
 }
 
-model Attendees {
-  id String @id @default(cuid())
-  name String
-  email String
-  
+model Companies {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  createdAt DateTime @default(now())
 }
 
-model Companies{
-  id String @id @default(cuid())
-  name String
-  email String
+model Availabilities {
+  id        Int      @id @default(autoincrement())
+  day       String
+  start     String
+  end       String
+  owner     Int
+  createdAt DateTime @default(now())
 }
-
-model Availabilities{
-  id String @id @default(cuid())
-  day String
-  start String
-  end String
-  owner String
-}
-
 
 model User {
-  id String @id @default(cuid())
-  userName String @unique
-  email String 
-  password String
+  id        Int      @id @default(autoincrement())
+  userName  String   @unique
+  email     String
+  password  String
+  createdAt DateTime @default(now())
 }

@@ -4,16 +4,19 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 export default async(req: NextApiRequest, res: NextApiResponse) =>{
-    if(req.method !== "GET"){
+    if(req.method !== "POST"){
         return res.json("Invalid request method provided")
     }
 
-    const ownerId:any = req.query
-    console.log(ownerId, "data")
+    const data = JSON.parse(req.body)
 
-    const response:any = await prisma.bookingRec.findMany({where: {
-        owner: ownerId.id
-    }})
+    const response = await prisma.bookingRec.update({
+        where: {id: data.id},
+        data: { 
+            startTime: data.startTime,
+            endTime: data.endTime
+         }
+    })
 
     return res.json(response)
 }

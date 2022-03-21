@@ -48,6 +48,7 @@ export default function Book() {
   });
 
   const { user, preview } = router.query;
+  console.log(user, preview, "hmmm")
 
   useEffect(() => {
     if (user !== undefined && preview !== undefined) {
@@ -150,6 +151,15 @@ export default function Book() {
     const result = await response.json();
 
     if (response.status === 200) {
+      const attendee = {
+        name: data?.userName,
+        email: data.email,
+        BookingId: result.id
+      }
+      await fetch("/api/attendees/create", {
+        method: "POST",
+        body: JSON.stringify(attendee),
+      });
       setIsLoading(false);
       alert("Booking Successful");
 
