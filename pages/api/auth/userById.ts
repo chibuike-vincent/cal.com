@@ -14,6 +14,7 @@ export default async(req: NextApiRequest, res:NextApiResponse) =>{
 
     const response = await prisma.user.findUnique({
         where: {
+            // @ts-ignore
             id: Number(user.id)
         }
       })
