@@ -12,7 +12,10 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
     console.log(id, "data")
 
     const response = await prisma.bookingRec.update({
-        where: {id: id},
+        where: {
+            // @ts-ignore
+            id: Number(id)
+        },
         data: { status: 'cancelled' }
     })
 

@@ -11,6 +11,7 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
     const ownerId:any = req.query
 
     const response:any = await prisma.bookingRec.findMany({where: {
+        // @ts-ignore
         owner: Number(ownerId.id)
     }})
 

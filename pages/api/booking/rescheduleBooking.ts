@@ -11,7 +11,10 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
     const data = JSON.parse(req.body)
 
     const response = await prisma.bookingRec.update({
-        where: {id: data.id},
+        where: {
+            // @ts-ignore
+            id: Number(data.id)
+        },
         data: { 
             startTime: data.startTime,
             endTime: data.endTime

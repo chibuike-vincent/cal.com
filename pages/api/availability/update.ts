@@ -13,7 +13,8 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
 
     const response = await prisma.availabilities.update({
         where: {
-            id: data.id
+            // @ts-ignore
+            id: Number(data.id)
         },
         data: { ...data},
       })

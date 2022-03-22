@@ -13,7 +13,5 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
 
     const response = await prisma.attendees.create({data: data})
 
-    console.log(response, "responseresponseresponse")
-
     return res.json(response)
 }

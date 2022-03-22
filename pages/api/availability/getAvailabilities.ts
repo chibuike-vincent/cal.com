@@ -14,6 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse, next:any) => {
     console.log(owner, "data")
 
     const response:any = await prisma.availabilities.findMany({where: {
+        // @ts-ignore
         owner: Number(owner.id)
     }})
 

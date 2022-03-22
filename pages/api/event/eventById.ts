@@ -15,6 +15,7 @@ export default async(req: NextApiRequest, res: NextApiResponse) =>{
 
     const response = await prisma.eventsType.findFirst({
         where: {
+            // @ts-ignore
             id: Number(event.id)
         }
       })
