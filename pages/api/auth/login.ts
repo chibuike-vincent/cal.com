@@ -55,7 +55,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const token = await jwt.sign(
         {
-            id: existing[0].id,
+            id: Number(existing[0].id),
             email: existing[0].email,
             userName: existing[0].userName
         },
@@ -69,7 +69,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         "Set-Cookie",
         cookie.serialize("token", token, {
             httpOnly: true,
-            // secure: process.env.NODE_ENV !== "development",
+            secure: process.env.NODE_ENV !== "development",
             maxAge: 60 * 60,
             sameSite: "strict",
             path: "/"
