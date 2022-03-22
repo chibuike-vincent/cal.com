@@ -11,7 +11,6 @@ export default async(req: NextApiRequest, res:NextApiResponse) =>{
     }
 
     const user:any = req.query
-    console.log(user.id, "dataddddd")
 
     const response = await prisma.user.findUnique({
         where: {
