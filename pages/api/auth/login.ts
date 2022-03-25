@@ -29,9 +29,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const existing = await prisma.user.findMany({ where: { email: email }})
 
-    console.log(existing, "email")
-    
-
     if (!existing.length) {
         return res.status(404).json({
             responseCode: "08",
@@ -53,11 +50,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
     }
 
-
-
     const token = await jwt.sign(
         {
-            id: 1,
+            id: existing[0].id.toString(),
             email: existing[0].email,
             userName: existing[0].userName
         },
@@ -66,6 +61,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             expiresIn: '1hr',
         }
     );
+
+    console.log(token, "token")
 
     res.setHeader(
         "Set-Cookie",
