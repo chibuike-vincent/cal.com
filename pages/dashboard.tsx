@@ -93,7 +93,7 @@ const Home: NextPage = (props: any) => {
                   className="flex flex-col justify-center items-center cursor-pointer"
                   onClick={() =>
                     clickToCopy(
-                      `https://vincent-cal-clone.vercel.app/${user.id}/${event.id}` // BaseURL to be added to env
+                      `https://cal-clone-three.vercel.app/${user.id}/${event.id}` // BaseURL to be added to env
                     )
                   }
                 >
