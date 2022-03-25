@@ -13,7 +13,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const jsonData = JSON.parse(req.body)
-    console.log(jsonData, "data")
 
     const { email, password } = jsonData;
 
@@ -23,7 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).json({
             responseCode: "02",
             status: "failed",
-            message: "Password must be more than 8 characters and contain atleast one capital letter and one special character.",
+            message: "Password must be more than 8 characters and contain atleast one capital letter and one special character."
         });
     }
 
@@ -61,8 +60,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             expiresIn: '1hr',
         }
     );
-
-    console.log(token, "token")
 
     res.setHeader(
         "Set-Cookie",
