@@ -57,7 +57,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const token = await jwt.sign(
         {
-            //@ts-ignore
             id: 1,
             email: existing[0].email,
             userName: existing[0].userName
