@@ -75,7 +75,7 @@ export default function Book() {
 
       {isLoading ? <div className=" w-full flex justify-center p-20 self-center items-center font-bold text-1xl">
           <p >Loading... </p>
-        </div>  : bookingData.length ||
+        </div> : bookingData.length ||
         cancelledBookingData.length ||
         pastBookingData.length ? (
         <Tabs className="overflow-scroll mb-20">

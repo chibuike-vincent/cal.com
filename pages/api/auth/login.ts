@@ -49,9 +49,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
     }
 
+
     const token = await jwt.sign(
         {
-            id: existing[0].id.toString(),
+            id: existing[0].id,
             email: existing[0].email,
             userName: existing[0].userName
         },
@@ -88,9 +89,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(500).json({
         responseCode: "99",
         status: "failed",
-        message: "An error Occurred Please Try again",
+        message: "An error occurred please try again",
     });
   }
-
-
 }
